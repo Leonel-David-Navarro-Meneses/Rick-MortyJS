@@ -7,7 +7,18 @@ const loadData = (url,page = 1) => {
 .then(respJson => {
     const info = respJson.info;
     const personajes = respJson.results;
-    console.log(info);
+    console.log(info.next);
+    console.log(info.prev);
+    if(!info.prev){
+        document.querySelector('#prev').classList.add('disabled')
+    }else{
+         document.querySelector('#prev').setAttribute('data-id' , page--)
+    }
+    if(!info.next){
+        document.querySelector('#next').classList.add('disabled')
+    }else{
+        document.querySelector('#next').setAttribute('data-id' , page++)
+    }
     console.log(personajes);
     showCharacters(personajes);
 })
