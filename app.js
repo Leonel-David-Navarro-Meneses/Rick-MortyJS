@@ -12,12 +12,12 @@ const loadData = (url,page = 1) => {
     if(!info.prev){
         document.querySelector('#prev').classList.add('disabled')
     }else{
-         document.querySelector('#prev').setAttribute('data-id' , page--)
+         document.querySelector('#prev').setAttribute('data-id' , page - 1)
     }
     if(!info.next){
         document.querySelector('#next').classList.add('disabled')
     }else{
-        document.querySelector('#next').setAttribute('data-id' , page++)
+        document.querySelector('#next').setAttribute('data-id' , page + 1)
     }
     console.log(personajes);
     showCharacters(personajes);
