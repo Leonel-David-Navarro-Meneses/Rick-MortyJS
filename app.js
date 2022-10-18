@@ -1,6 +1,7 @@
 const urlBase = 'https://rickandmortyapi.com/api/character/';
 
-const loadData = (url) => {
+const loadData = (url,page = 1) => {
+    url += `?page=${page}`
  fetch(url)
 .then(respuesta => respuesta.json())
 .then(respJson => {
