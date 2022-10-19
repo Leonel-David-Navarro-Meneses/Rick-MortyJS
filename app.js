@@ -12,11 +12,13 @@ const loadData = (url,page = 1) => {
     if(!info.prev){
         document.querySelector('#prev').classList.add('disabled')
     }else{
+         document.querySelector('#prev').classList.remove('disabled')
          document.querySelector('#prev').setAttribute('data-id' , page - 1)
     }
     if(!info.next){
         document.querySelector('#next').classList.add('disabled')
     }else{
+        document.querySelector('#next').classList.remove('disabled')
         document.querySelector('#next').setAttribute('data-id' , page + 1)
     }
     console.log(personajes);
@@ -25,21 +27,28 @@ const loadData = (url,page = 1) => {
 
 }
 
+
+const navegacion = (e) => {
+    e.preventDefault();
+    if(e.target.classList.contains('btn')){
+        let page = e.target.getAttribute('data-id');
+        loadData(urlBase, page);
+    }
+}
+
+
 loadData(urlBase);
 
+document.querySelector('.botones').addEventListener('click', navegacion);
+
 const showCharacters = (personajes) => {
-    /*const ul = document.createElement('ul');
-personajes.forEach(personaje => {
-    const li = document.createElement('li');
-    li.innerHTML = `el ${personaje.name} is ${personaje.status}
-                   <img src="${personaje.image}">`;
-    ul.appendChild(li);
-});
-document.querySelector('#respuesta').appendChild(ul);*/
-const contenedorRespuesta = document.querySelector('#respuesta');
-personajes.forEach(personaje => {
+    const contenedorRespuesta = document.querySelector('#respuesta');
+    while(contenedorRespuesta.firstChild){
+        contenedorRespuesta.remove(contenedorRespuesta.firstChild);
+    }
+         personajes.forEach(personaje => {
     contenedorRespuesta.appendChild(creaCard(personaje));
-});
+})
 }
 
 
