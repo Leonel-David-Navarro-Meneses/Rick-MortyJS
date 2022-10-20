@@ -28,6 +28,28 @@ const loadData = (url,page = 1) => {
 
 }
 
+loadCharacterInfo = (url, id) => {
+    let urlCharacter = `${url}${id}`;
+    console.log(urlCharacter);
+    fetch(urlCharacter)
+    .then(respuesta => respuesta.json())
+    .then(personaje => {
+        //implementa modal con info del personaje
+        alert(personaje.name);
+
+    })
+}
+
+const showModal = (e) => {
+    e.preventDefault();
+    if(e.target.classList.contains('btn')){
+        let id = e.target.getAttribute('data-id');
+        loadCharacterInfo(urlBase, id);
+    }
+}
+
+document.querySelector('#respuesta').addEventListener('click', showModal )
+
 
 const navegacion = (e) => {
     e.preventDefault();
@@ -57,11 +79,11 @@ const creaCard = (personaje) => {
    const card = document.createElement('div');
     const html = `
     <div class="card m-3" style="width: 18rem; float: left;">
-    <img src="${personaje.image}" class="card-img-top" alt="...">
+    <img loading="lazy" src="${personaje.image}" class="card-img-top" alt="...">
     <div class="card-body">
       <h5 class="card-title">${personaje.name}</h5>
       <p class="card-text">${personaje.status}</p>
-      <a href="#" class="btn btn-primary">Go somewhere</a>
+      <button href="#" class="btn btn-primary btn-block" data-id="${personaje.id}">Go somewhere</button>
     </div>
   </div>`;
   card.innerHTML = html;
