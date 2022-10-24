@@ -28,24 +28,39 @@ const loadData = (url,page = 1) => {
 
 }
 
-loadCharacterInfo = (url, id) => {
-
+const loadCharacterInfo = (url, id) => {
 let urlCharacter = `${url}${id}`;
 console.log(urlCharacter);
 const modalContent = document.querySelector('.modal-body');
 modalContent.removeChild(modalContent.firstChild);
-modalContent.innerHTML = spinner();
+modalContent.appendChild(spinner());
 setTimeout(() => {
   fetch(urlCharacter)
   .then(respuesta => respuesta.json())
   .then(personaje => {
       //implementa modal con info del personaje
       modalContent.removeChild(modalContent.firstChild);
-      const html = `<div>${personaje.name}</div>`;
-      modalContent.innerHTML = html;
+      document.querySelector('.modal-title').innerText = personaje.name;
+      modalContent.appendChild(modalBody(personaje));
        });
 },2000);
 }
+
+const modalBody = (personaje) => {
+  const div = document.createElement('div');
+  const origen = personaje.origin.name;
+  const location = personaje.location.name;
+  const episodes = personaje.episode.length;
+  let html = '';
+  html += origen ==='unknown'? `<h4> no se sabe de donde viene XD </h4>`:
+                    `<h4>viene de ${origen}</h4> `;
+  html += `<h4>se encuentra en ${location}</h4>`;
+  html += `<img src = "${personaje.image}" class="rounded mx-auto d-block">`;
+  html += `<p> aparece en ${episodes} episodios</p>`;
+  div.innerHTML = html;
+  return div;
+}
+
 
 const showModal = (e) => {
     e.preventDefault();
@@ -69,7 +84,6 @@ const navegacion = (e) => {
     }
 }
 
-
 loadData(urlBase);
 
 document.querySelector('.botones').addEventListener('click', navegacion);
@@ -85,13 +99,15 @@ const showCharacters = (personajes) => {
 }
 
 const spinner = () => {
+  const div = document.createElement('div');
   const html = 
   ` <div class="d-flex justify-content-center">
   <div class="spinner-border text-info" role="status">
     <span class="visually-hidden">aun no carga</span>
   </div>
 </div>`;
-return html;
+div.innerHTML = html;
+return div;
 }
 
 
